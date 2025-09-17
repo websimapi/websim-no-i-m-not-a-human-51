@@ -156,8 +156,8 @@ async function transitionToScene(sceneIndex) {
       if (currentSceneIndex !== sceneIndex) return;
       idx++;
       if (idx < maxFrames && idx < sceneAssets.frames.length) {
+        if (idx === maxFrames - 1) { stopGateLongCreak(0); } // hard stop before the visual switch
         posterizeInstance.setImage(sceneAssets.frames[idx]);
-        if (idx === maxFrames - 1) { stopGateLongCreak(0); } // stop long creak instantly on switch to final frame
         playGateFrameClank(1.0);
         const delay = (sceneAssets.delays[idx] || 100) / 2; // 2x faster
         slideshowTimer = setTimeout(playFrame, delay);

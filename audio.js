@@ -60,8 +60,9 @@ export function stopGateLongCreak(fadeOut=1.2){
   const h=gateLongHandle; if(!h) return; gateLongHandle=null;
   try{
     h.gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-    if (fadeOut <= 0) { h.gainNode.gain.setValueAtTime(0, audioCtx.currentTime); try{ h.source.stop(); }catch{} }
-    else { h.gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime+fadeOut); setTimeout(()=>{ try{ h.source.stop(); }catch{} }, fadeOut*1000); }
+    h.source.loop = false;
+    if (fadeOut <= 0) { h.gainNode.gain.setValueAtTime(0, audioCtx.currentTime); try{ h.source.stop(0); h.source.disconnect(); h.gainNode.disconnect(); }catch{} }
+    else { h.gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime+fadeOut); setTimeout(()=>{ try{ h.source.stop(0); h.source.disconnect(); h.gainNode.disconnect(); }catch{} }, fadeOut*1000); }
   }catch{}
 }
 
